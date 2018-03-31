@@ -57,7 +57,7 @@ function newtonRaphsonIterate (aX, aGuessT, mX1, mX2) {
  return aGuessT;
 }
 
-var src = function bezier (mX1, mY1, mX2, mY2) {
+var index = function bezier (mX1, mY1, mX2, mY2) {
   if (!(0 <= mX1 && mX1 <= 1 && 0 <= mX2 && mX2 <= 1)) {
     throw new Error('bezier x values must be in [0, 1] range');
   }
@@ -334,10 +334,15 @@ var scroller = function scroller() {
             options.duration = _duration;
         }
 
-        element = _.$(target);
+        if ((typeof target === "undefined" ? "undefined" : _typeof(target)) === 'object') {
+            // use top/left object
+        } else {
+            // original method
+            element = _.$(target);
 
-        if (!element) {
-            return console.warn("[vue-scrollto warn]: Trying to scroll to an element that is not on the page: " + target);
+            if (!element) {
+                return console.warn("[vue-scrollto warn]: Trying to scroll to an element that is not on the page: " + target);
+            }
         }
 
         container = _.$(options.container || defaults$$1.container);
@@ -351,8 +356,17 @@ var scroller = function scroller() {
         x = options.x === undefined ? defaults$$1.x : options.x;
         y = options.y === undefined ? defaults$$1.y : options.y;
 
+        if (!container) {
+            return console.warn("[vue-scrollto warn]: Trying to scroll to an element that is not on the page: " + target);
+        }
         var cumulativeOffsetContainer = _.cumulativeOffset(container);
-        var cumulativeOffsetElement = _.cumulativeOffset(element);
+
+        var cumulativeOffsetElement = {};
+        if ((typeof target === "undefined" ? "undefined" : _typeof(target)) === 'object') {
+            var cumulativeOffsetElement = element;
+        } else {
+            var cumulativeOffsetElement = _.cumulativeOffset(element);
+        }
 
         if (typeof offset === "function") {
             offset = offset();
@@ -373,7 +387,7 @@ var scroller = function scroller() {
             easing = easings[easing] || easings["ease"];
         }
 
-        easingFn = src.apply(src, easing);
+        easingFn = index.apply(index, easing);
 
         if (!diffY && !diffX) return;
         if (onStart) onStart(element);

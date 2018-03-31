@@ -135,13 +135,18 @@ export const scroller = () => {
             options.duration = _duration;
         }
 
-        element = _.$(target);
+        if (typeof target === "object") {
+            // use top/left object
+        } else {
+            // original method
+            element = _.$(target);
 
-        if (!element) {
-            return console.warn(
-                "[vue-scrollto warn]: Trying to scroll to an element that is not on the page: " +
-                    target
-            );
+            if (!element) {
+                return console.warn(
+                    "[vue-scrollto warn]: Trying to scroll to an element that is not on the page: " +
+                        target
+                );
+            }
         }
 
         container = _.$(options.container || defaults.container);
@@ -157,8 +162,20 @@ export const scroller = () => {
         x = options.x === undefined ? defaults.x : options.x;
         y = options.y === undefined ? defaults.y : options.y;
 
+        if (!container) {
+            return console.warn(
+                "[vue-scrollto warn]: Trying to scroll to an element that is not on the page: " +
+                    target
+            );
+        }
         var cumulativeOffsetContainer = _.cumulativeOffset(container);
-        var cumulativeOffsetElement = _.cumulativeOffset(element);
+
+        var cumulativeOffsetElement = {};
+        if (typeof target === "object") {
+            var cumulativeOffsetElement = element;
+        } else {
+            var cumulativeOffsetElement = _.cumulativeOffset(element);
+        }
 
         if (typeof offset === "function") {
             offset = offset();
