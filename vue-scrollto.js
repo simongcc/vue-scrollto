@@ -334,7 +334,7 @@ var scroller = function scroller() {
             options.duration = _duration;
         }
 
-        if ((typeof target === "undefined" ? "undefined" : _typeof(target)) === 'object') {
+        if ((typeof target === "undefined" ? "undefined" : _typeof(target)) === "object") {
             // use top/left object
         } else {
             // original method
@@ -362,8 +362,8 @@ var scroller = function scroller() {
         var cumulativeOffsetContainer = _.cumulativeOffset(container);
 
         var cumulativeOffsetElement = {};
-        if ((typeof target === "undefined" ? "undefined" : _typeof(target)) === 'object') {
-            var cumulativeOffsetElement = element;
+        if ((typeof target === "undefined" ? "undefined" : _typeof(target)) === "object") {
+            var cumulativeOffsetElement = target;
         } else {
             var cumulativeOffsetElement = _.cumulativeOffset(element);
         }

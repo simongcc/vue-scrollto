@@ -172,7 +172,7 @@ export const scroller = () => {
 
         var cumulativeOffsetElement = {};
         if (typeof target === "object") {
-            var cumulativeOffsetElement = element;
+            var cumulativeOffsetElement = target;
         } else {
             var cumulativeOffsetElement = _.cumulativeOffset(element);
         }
